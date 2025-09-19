@@ -3,7 +3,7 @@ name: Databricks Bundle Deploy - dev
 on:
   push:
     branches:
-      - main
+      - features/added_notebook2
   workflow_dispatch: # allows manual trigger
 
 jobs:
