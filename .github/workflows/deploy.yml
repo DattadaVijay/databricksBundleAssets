@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repository
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Python 3.9 (more stable for databricks-bundle)
+      # 2️⃣ Set up Python 3.9
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.9'
 
-      # 3️⃣ Install system dependencies required for building packages
+      # 3️⃣ Install system dependencies for building packages
       - name: Install system dependencies
         run: |
           sudo apt-get update
