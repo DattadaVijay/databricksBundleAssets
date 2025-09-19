@@ -3,14 +3,15 @@ name: Deploy to Databricks (simple)
 on:
   push:
     branches:
-      - features/added_notebook2    # change to the branch you want to trigger deploy
+      - features/added_notebook2   # branch that triggers deploy
+  workflow_dispatch:              # optional: allows manual run
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -18,16 +19,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Databricks CLI (and bundle)
+      - name: Install Databricks CLI & bundle
         run: |
           python -m pip install --upgrade pip
-          pip install databricks-cli databricks-sdk databricks-bundle || true
-          databricks --version || true
+          pip install databricks-cli databricks-sdk databricks-bundle
+          databricks --version
 
       - name: Deploy bundle to dev
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          # if your databricks.yml is in the 'bundle' folder, cd there:
           databricks bundle deploy --target dev
