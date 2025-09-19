@@ -1,44 +1,36 @@
-name: Deploy to Databricks (bundle)
+name: Databricks Bundle Deploy - dev
 
-# Trigger workflow on push to your feature branch or manual run
 on:
   push:
     branches:
       - features/added_notebook2
-  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repository
+      - name: Checkout repo 💻
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Python 3.9
-      - name: Set up Python
+      - name: Set up Databricks CLI 🧱
+        uses: databricks/setup-cli@main
+        with:
+          version: latest
+
+      - name: Set up Python 🐍
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: "3.12"
 
-      # 3️⃣ Install system dependencies for building packages
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential python3-dev libffi-dev libssl-dev
-
-      # 4️⃣ Install old Databricks CLI + databricks-bundle
-      - name: Install Databricks CLI & bundle
-        run: |
-          python -m pip install --upgrade pip setuptools wheel
-          pip install databricks-cli==0.17.6 databricks-bundle
-          databricks --version
-
-      # 5️⃣ Deploy your bundle to dev
-      - name: Deploy bundle to dev
+      - name: Deploy Databricks Bundle 🚀
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: |
-          databricks bundle deploy --target dev
+        run: databricks bundle deploy --auto-approve
+
+      - name: Run Pipeline 🏃
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle run deploy_job
