@@ -1,0 +1,9 @@
+name: iris_demo_endpoint
+resource_type: model_endpoint
+model_name: iris_rf_classifier
+model_version: 1
+tags:
+  environment: ${var.environment}
+  data_product: ${var.data_product}
+  domain: ${var.domain}
+  catalog: ${var.catalog}

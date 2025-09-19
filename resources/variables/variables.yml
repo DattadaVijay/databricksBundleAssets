@@ -3,4 +3,12 @@ variables:
     default: dltvijay
   schema_name:
     default: source
+  environment: 
+    default: dev
+  data_product: 
+    default: iris_demo
+  domain: 
+    default: ml_demo
+  catalog: 
+    default: iris_catalog
   
