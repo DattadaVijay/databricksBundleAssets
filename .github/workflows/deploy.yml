@@ -3,7 +3,7 @@ name: Deploy to Databricks (simple)
 on:
   push:
     branches:
-      - main    # change to the branch you want to trigger deploy
+      - features/added_notebook2    # change to the branch you want to trigger deploy
 
 jobs:
   deploy:
