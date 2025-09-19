@@ -3,34 +3,32 @@ name: Databricks Bundle Deploy - dev
 on:
   push:
     branches:
-      - features/added_notebook2
+      - main
+  workflow_dispatch: # allows manual trigger
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo 💻
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Databricks CLI 🧱
-        uses: databricks/setup-cli@main
+      - name: Set up Databricks CLI
+        uses: databricks/setup-cli@v0
         with:
-          version: latest
+          version: 0.268.0   # matches what you tested locally
 
-      - name: Set up Python 🐍
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Deploy Databricks Bundle 🚀
+      - name: Debug Databricks CLI version
+        run: databricks --version
+
+      - name: Deploy Databricks bundle
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy --auto-approve
-
-      - name: Run Pipeline 🏃
-        env:
-          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle run deploy_job
