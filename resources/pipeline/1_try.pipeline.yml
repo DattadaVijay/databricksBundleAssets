@@ -1,0 +1,20 @@
+resources:
+  pipelines:
+    yml_pipe:
+      name: "first_asset_bundle_pipeline"
+      catalog: "dltvijay"
+      schema: "source"
+      serverless: true
+
+      libraries:
+        - file: 
+            path: ../../src/pipeline/pipe1.try.py
+        - file:
+            path: ../../src/pipeline/pipe2.try.py
+
+      
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
+        dltparam.environment: ${bundle.target}
+        dltparam.catalog_name: ${var.catalog_name}
+        dltparam.schema_name: ${var.schema_name}

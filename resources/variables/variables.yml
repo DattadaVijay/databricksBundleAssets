@@ -1,3 +1,6 @@
 variables:
   catalog_name:
-    default: assetbundles
+    default: dltvijay
+  schema_name:
+    default: source
+  
