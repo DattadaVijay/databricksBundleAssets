@@ -3,8 +3,8 @@ name: Deploy to Databricks (simple)
 on:
   push:
     branches:
-      - features/added_notebook2   # branch that triggers deploy
-  workflow_dispatch:              # optional: allows manual run
+      - features/added_notebook2
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -19,9 +19,14 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential python3-dev libffi-dev libssl-dev
+
       - name: Install Databricks CLI & bundle
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip setuptools wheel
           pip install databricks-cli databricks-sdk databricks-bundle
           databricks --version
 
