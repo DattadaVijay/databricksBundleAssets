@@ -39,12 +39,6 @@ resources:
                 base_parameters:
                   table_name: "{{input}}"
                 notebook_path: ../../src/notebooks/looping_check.ipynb
-        
-        - task_key: silver_pipeline
-          depends_on:
-            - task_key: loop_check
-          pipeline_task:
-            pipeline_id: ${resources.pipelines.1_try.id}
 
               
 
