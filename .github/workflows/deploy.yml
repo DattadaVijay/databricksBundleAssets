@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - features/added_notebook2
-  workflow_dispatch: # allows manual trigger
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -15,9 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Databricks CLI
-        uses: databricks/setup-cli@v0
-        with:
-          version: 0.268.0   # matches what you tested locally
+        uses: databricks/setup-cli@v0.269.0   # ✅ latest stable release
 
       - name: Set up Python
         uses: actions/setup-python@v5
