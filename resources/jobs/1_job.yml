@@ -1,0 +1,52 @@
+resources:
+  jobs:
+    jobs_deploy:
+      name: yml_job_deploy
+      tags:
+        domain: yml_deploy
+        catalog: dltvijay
+        schema: source
+      trigger:
+        periodic:
+          interval: 7
+          unit: DAYS
+
+      tasks:
+        - task_key: notebook2_run
+          max_retries: 0
+          notebook_task:
+            notebook_path: ../../src/notebooks/notebook2.ipynb
+            base_parameters: 
+              catalog_name: ${var.catalog_name}
+
+        - task_key: notebook1_run
+          max_retries: 0
+          notebook_task:
+            notebook_path: ../../src/notebooks/Practising_Asserts.ipynb
+
+        
+        - task_key: loop_check
+          max_retries: 0
+          depends_on:
+            - task_key: notebook1_run
+            - task_key: notebook2_run
+          for_each_task:
+            concurrency: 3
+            inputs: '["Vijay", "Suma"]'
+            task:
+              task_key: loop_check_parms
+              notebook_task:
+                base_parameters:
+                  table_name: "{{input}}"
+                notebook_path: ../../src/notebooks/looping_check.ipynb
+        
+        - task_key: silver_pipeline
+          depends_on:
+            - task_key: loop_check
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.1_try.id}
+
+              
+
+
+          
