@@ -12,6 +12,12 @@ resources:
           unit: DAYS
 
       tasks:
+
+        - task_key: model_registry
+          max_retries: 0
+          notebook_task:
+            notebook_path: ../../src/notebooks/iris_classifier.ipynb
+
         - task_key: notebook2_run
           max_retries: 0
           notebook_task:
@@ -39,6 +45,13 @@ resources:
                 base_parameters:
                   table_name: "{{input}}"
                 notebook_path: ../../src/notebooks/looping_check.ipynb
+
+        - task_key: pipine_check
+          depends_on:
+            - task_key: loop_check
+          max_retries: 0
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.yml_pipe.id}
 
               
 
