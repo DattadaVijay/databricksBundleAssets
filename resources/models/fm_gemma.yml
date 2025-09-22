@@ -1,16 +1,14 @@
-bundle:
-  name: gemma-endpoint-bundle
-
 resources:
   model_serving_endpoints:
     gemma-it-endpoint:
       name: gemma-3-12b-endpoint
-      served_entities:
-        - name: gemma-chat
-          external_model:
-            name: databricks-gemma-3-12b
-            provider: databricks-model-serving
-            task: llm/v1/chat
+      config:
+        served_entities:
+          - name: gemma-chat
+            external_model:
+              name: databricks-gemma-3-12b
+              provider: databricks-model-serving
+              task: llm/v1/chat
       tags:
         - key: project
           value: ai-chat
