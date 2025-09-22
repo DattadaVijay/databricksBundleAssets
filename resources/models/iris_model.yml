@@ -1,22 +1,24 @@
-# databricks-gemma-foundation.yml
-bundle:
-  name: my-foundation-model-bundle
-
 resources:
   model_serving_endpoints:
-    my_foundation_model_endpoint:
-      name: my-foundation-model-endpoint      # Endpoint name in Databricks
+
+    iris_rf_endpoint:
+      
+      name: iris-rf-classifier-endpoint
+
+      
       tags:
         - key: environment
           value: dev
         - key: project
-          value: gemma-3-12b-fm
+          value: iris-classification
         - key: owner
           value: your-name
-      foundation_model:
-        model_name: gemma-3-12b             # Prebuilt Gemma model
-        model_version: 1
-        task: text-generation               # chat, text-generation, embeddings
-        workload_type: CPU                  # CPU or GPU
-        workload_size: Small                # Small, Medium, Large
-        scale_to_zero_enabled: true
+
+      config:
+      
+        served_entities:
+          - entity_name: workspace.default.iris_rf_classifier
+            entity_version: 1
+            workload_size: Small
+            scale_to_zero_enabled: true
+
