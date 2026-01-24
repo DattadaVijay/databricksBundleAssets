@@ -6,10 +6,6 @@ resources:
         domain: yml_deploy
         catalog: dltvijay
         schema: source
-      trigger:
-        periodic:
-          interval: 7
-          unit: DAYS
 
       tasks:
 

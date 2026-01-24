@@ -1,0 +1,36 @@
+dataContractSpecification: 0.5.11
+id: bronze-orders-contract
+info:
+  title: Bronze Orders Contract
+  version: 1.0.0
+
+servers:
+  databricks_workspace:
+    host: https://dbc-e3761da8-7d95.cloud.databricks.com/
+    type: databricks
+    catalog: Workspace
+    schema: default
+
+models:
+  bronze_orders: # This matches your table name
+    type: table
+    fields:
+      event_type:
+        type: string
+        enum: [OrderCreated, OrderCancelled]
+      order_id:
+        type: string
+        required: true
+      customer_id:
+        type: string
+      order_ts:
+        type: timestamp
+      channel:
+        type: string
+        enum: [web, mobile]
+    
+    checks:
+      - name: check_not_empty
+        must: count(*) > 0
+      - name: unique_order_id
+        must: count(order_id) = count(distinct order_id)

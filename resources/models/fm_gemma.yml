@@ -1,22 +1,15 @@
 resources:
   model_serving_endpoints:
-    gemma-it-endpoint:
-      name: gemma-3-12b-endpoint
+    gemma_endpoint:
+      name: 'gemma-12b-it'
       config:
         served_entities:
-          - name: gemma-chat
-            external_model:
-              name: databricks-gemma-3-12b
-              provider: databricks-model-serving
-              task: llm/v1/chat
-      tags:
-        - key: project
-          value: ai-chat
-        - key: environment
-          value: dev
-        - key: data_product
-          value: RAG
-        - key: domain
-          value: analytics
-        - key: catalog
-          value: shared
+          - entity_name: 'system.ai.gemma-3-12b-it'
+            name: 'gemma-12b-it'
+            min_provisioned_throughput: 0
+            max_provisioned_throughput: 5000
+            scale_to_zero_enabled: true
+        traffic_config:
+          routes:
+            - served_model_name: 'gemma-12b-it'
+              traffic_percentage: 100
